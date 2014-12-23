@@ -2,7 +2,7 @@
 	box-sizing: border-box;
 }
 html, input {
-    font-family: "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-family: "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 html {
     -ms-text-size-adjust: none;
@@ -50,7 +50,7 @@ footer .logo {
 
 /* topology */
 
-.states {
+.countries {
 	stroke: #fff;
 	stroke-width: 1px;
 	stroke-linejoin: round;
@@ -168,10 +168,10 @@ ul {
 	display: inline-block;
 	margin-right: 5px;
 	border-radius: 50%;
-	background-color: #FF8586;
+	background-color: green;
 }
-.legendbox li div.sad {
-	background-color: #63A69F;
+.legendbox li div.naughty {
+	background-color: red;
 }
 .legendbox li div.neutral {
 	background-color: #DECEB3;
@@ -254,7 +254,7 @@ svg {
 	.tweet {
 		width: 250px;
 	}
-}	
+}
 @media only screen and (max-width: 900px) {
 	h1 {
 		font-size: 2.4em;
@@ -269,7 +269,7 @@ svg {
 	.tweet {
 		width: 230px;
 	}
-}	
+}
 @media only screen and (max-width: 800px) {
 	h1 {
 		font-size: 2em;
