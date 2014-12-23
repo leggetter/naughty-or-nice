@@ -7,7 +7,7 @@
 
 	button.addEventListener('click', function(e){
 		if(isRunning) {
-			pusher.unsubscribe( 'tweets' );
+			pusher.unsubscribe( channel );
 			button.value = 'Stream again';
 			isRunning = false;
 		} else {
@@ -110,28 +110,28 @@
 	var pusher = new Pusher( '5adb2ced9a7f34b87aa9' );
 
 	function getStreamData() {
-		var tweets = pusher.subscribe( 'tweets' );
+		var tweets = pusher.subscribe( channel );
 		tweets.bind( 'new-tweet', processData );
 	}
 
-	function getUserInfo(data, callback) {
+	function getUserInfo(tweet, callback) {
 		var userInfo = {};
 
-		userInfo.lat = data.geo.coordinates[0];
-		userInfo.lon = data.geo.coordinates[1];
+		userInfo.lat = tweet.geo.coordinates[0];
+		userInfo.lon = tweet.geo.coordinates[1];
 
 		if(userInfo.lat === 0 && userInfo.lon === 0) return;
 
-		var city = data.place.full_name;
-		userInfo.country = countryLookup[ data.place.country_code ];
+		var city = tweet.place.full_name;
+		userInfo.country = countryLookup[ tweet.place.country_code ];
 
-		userInfo.name = data.user.name;
-		userInfo.screenname = data.user.screen_name;
-		userInfo.avatar = data.user.profile_image_url;
-		userInfo.tweet = data.text;
-		userInfo.id_str = data.id_str;
+		userInfo.name = tweet.user.name;
+		userInfo.screenname = tweet.user.screen_name;
+		userInfo.avatar = tweet.user.profile_image_url;
+		userInfo.tweet = tweet.text;
+		userInfo.id_str = tweet.id_str;
 
-		var date = new Date(parseInt(data.timestamp_ms));
+		var date = new Date(parseInt(tweet.timestamp_ms));
 		var d = date.toDateString().substr(4);
 		var t = (date.getHours() > 12) ? date.getHours()-12 + ':' + date.getMinutes() + ' PM' : date.getHours() + ':' + date.getMinutes() +' AM;';
 
@@ -193,14 +193,14 @@
 		});
 	}
 
-	function processData(data) {
+	function processTweet(tweet) {
 		// console.log( data );
 
-		if (naughtyWords.some(function(v) { return data.text.toLowerCase().indexOf(v) > 0; })) {
-			displayData(data, naughty);
+		if (naughtyWords.some(function(v) { return tweet.text.toLowerCase().indexOf(v) > 0; })) {
+			displayData(tweet, naughty);
 		}
-		else if (niceWords.some(function(v) { return data.text.toLowerCase().indexOf(v) > 0; })) {
-			displayData(data, nice);
+		else if (niceWords.some(function(v) { return tweet.text.toLowerCase().indexOf(v) > 0; })) {
+			displayData(tweet, nice);
 		}
 	}
 

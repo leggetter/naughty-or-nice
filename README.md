@@ -7,7 +7,7 @@ A bit of fun to see if those that are tweeting about Christmas are being **Naugh
 [Try it now!][demo]
 
 
-![Screencast](https://raw.githubusercontent.com/pubnub/tweet-emotion/gh-pages/tweet-emotion.gif "Screencast")
+![Screenshot](https://raw.githubusercontent.com/leggetter/naughty-or-nice/gh-pages/images/screenshot.png "Screenshot")
 
 
 ## Credit
