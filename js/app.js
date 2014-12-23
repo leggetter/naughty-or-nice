@@ -111,7 +111,7 @@
 
 	function getStreamData() {
 		var tweets = pusher.subscribe( channel );
-		tweets.bind( 'new-tweet', processData );
+		tweets.bind( 'new-tweet', processTweet );
 	}
 
 	function getUserInfo(tweet, callback) {
