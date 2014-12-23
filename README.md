@@ -1,23 +1,22 @@
-# PubNub ❤ Twitter Project - How is America feeling right now?
+# Pusher + Twitter - Naughty or Nice
 
+A bit of fun to see if those that are tweeting about Christmas are being **Naughty or Nice**. This app uses [Pusher][pusher], the [Twitter Streaming API](https://dev.twitter.com/streaming/overview, [D3.js][d3],  [Twemoji][twemoji] and is inspired by a demo originally created by [@girlie_mac](https://twitter.com/girlie_mac).
 
-A showcase and a quick tutorial of [PubNub][pubnub] Twitter feed and data stream network JavaScript API, using [D3.js][d3]. 
-Emoji on each tweet is displayed with [Twemoji][twemoji].
-
-## Tutorial
-
-The article, **Tweet emotion: real-time Tweet analysis with PubNub Data Stream** is published on official [Twitter Developer Blog][twitterdev]
-
-## Demo
+## Naughty or Nice Demo
 
 [Try it now!][demo]
 
- 
+
 ![Screencast](https://raw.githubusercontent.com/pubnub/tweet-emotion/gh-pages/tweet-emotion.gif "Screencast")
 
 
+## Credit
+
+The demo that Naughty or Nice is based on was by [@girlie_mac](https://twitter.com/girlie_mac). You can read the full article, **Tweet emotion: real-time Tweet analysis with PubNub Data Stream**, on the [Twitter Developer Blog][twitterdev]
+
+
 [d3]: http://d3js.org/
-[demo]: http://pubnub.github.io/tweet-emotion
-[pubnub]: http://www.pubnub.com/docs/javascript/javascript-sdk.html
+[demo]: http://leggetter.github.io/naughty-or-nice/
+[pusher]: http://pusher.com/
 [twemoji]: https://github.com/twitter/twemoji
 [twitterdev]: https://blog.twitter.com/2014/tweet-emotion-real-time-tweet-analysis-with-pubnub-data-stream
