@@ -7,13 +7,11 @@
 
 	button.addEventListener('click', function(e){
 		if(isRunning) {
-			pubnub.unsubscribe({
-				channel: channel
-			});
+			pusher.unsubscribe( 'tweets' );
 			button.value = 'Stream again';
 			isRunning = false;
 		} else {
-			getData();
+			getStreamData();
 			button.value = 'Stop me!';
 			isRunning = true;
 		}
@@ -25,35 +23,15 @@
 
 	var tally = {};
 
-	var positiveColor = 'green';
+	var niceColor = 'green';
 	var naughtyColor = 'red';
 	var neutralColor = '#DECEB3';
 
-	var positive = {
-		type: 'positive',
-		icon: 'santa.png'
-	};
-	var happy = {
-		type: 'positive',
-		icon: 'santa.png'
-	};
-	var lovely = {
-		type: 'positive',
+	var nice = {
+		type: 'nice',
 		icon: 'santa.png'
 	};
 	var naughty = {
-		type: 'naughty',
-		icon: 'grinch.png'
-	};
-	var sad = {
-		type: 'naughty',
-		icon: 'grinch.png'
-	};
-	var angry = {
-		type: 'naughty',
-		icon: 'grinch.png'
-	};
-	var sick = {
 		type: 'naughty',
 		icon: 'grinch.png'
 	};
@@ -125,44 +103,18 @@
 	var faceIcon = svg.selectAll('image').data([0]);
 
 
-	/* PubNub */
+	/* Pusher */
 
-	var channel = 'pubnub-twitter';
+	var channel = 'tweets';
 
-	var pubnub = PUBNUB.init({
-		subscribe_key: 'sub-c-78806dd4-42a6-11e4-aed8-02ee2ddab7fe'
-	});
-
-	// fetching previous 100 data, then realtime stream
-	function getData() {
-		pubnub.history({
-	    	channel: channel,
-	    	count: 100,
-	    	callback: function(messages) {
-	    		pubnub.each( messages[0], processData );
-	    		getStreamData();
-	    	},
-	    	error: function(error) {
-	    		console.log(error);
-	    		if(error) {
-	    			getStreamData();
-	    		}
-	    	}
-	    });
-	}
+	var pusher = new Pusher( '5adb2ced9a7f34b87aa9' );
 
 	function getStreamData() {
-		pubnub.subscribe({
-			channel: channel,
-			callback: processData
-		});
+		var tweets = pusher.subscribe( 'tweets' );
+		tweets.bind( 'new-tweet', processData );
 	}
 
 	function getUserInfo(data, callback) {
-		if(!data.geo) return;
-		// throw data.geo;
-		// return;
-
 		var userInfo = {};
 
 		userInfo.lat = data.geo.coordinates[0];
@@ -213,13 +165,13 @@
 
 			var countryCode = user.country[ 'country-code' ];
 			if(document.querySelector('.country-'+countryCode)) {
-				tally[countryCode] = (tally[countryCode] || {positive: 0, naughty: 0});
+				tally[countryCode] = (tally[countryCode] || {nice: 0, naughty: 0});
 				tally[countryCode][emotion.type] = (tally[countryCode][emotion.type] || 0) + 1;
 
 				var countryEl = document.querySelector('.country-'+countryCode);
-				countryEl.style.fill = (tally[countryCode].positive > tally[countryCode].naughty) ? positiveColor : ((tally[countryCode].positive < tally[countryCode].naughty) ? naughtyColor :neutralColor);
+				countryEl.style.fill = (tally[countryCode].nice > tally[countryCode].naughty) ? niceColor : ((tally[countryCode].nice < tally[countryCode].naughty) ? naughtyColor :neutralColor);
 
-				countryEl.setAttribute('data-positive', tally[countryCode].positive);
+				countryEl.setAttribute('data-nice', tally[countryCode].nice);
 				countryEl.setAttribute('data-naughty', tally[countryCode].naughty);
 			}
 
@@ -235,25 +187,23 @@
 				.attr('width', '26').attr('height', '26')
         .attr('transform', function(d) {return 'translate(' + position + ')';});
 
-			setTimeout( function() {
-				emoji.remove();
-			}, 180 * 1000 )
+			// setTimeout( function() {
+			// 	emoji.remove();
+			// }, 180 * 1000 )
 		});
 	}
 
 	function processData(data) {
 		// console.log( data );
-		if(!data || !data.place || !data.lang) return;
-		// if(data.place.country_code !== 'US') return;
-		if(data.lang !== 'en') return;
 
 		if (naughtyWords.some(function(v) { return data.text.toLowerCase().indexOf(v) > 0; })) {
-			displayData(data, positive);
-		} else if (niceWords.some(function(v) { return data.text.toLowerCase().indexOf(v) > 0; })) {
-			displayData(data, happy);
+			displayData(data, naughty);
+		}
+		else if (niceWords.some(function(v) { return data.text.toLowerCase().indexOf(v) > 0; })) {
+			displayData(data, nice);
 		}
 	}
 
-	getData();
+	getStreamData();
 
 })();
